@@ -14,7 +14,7 @@ from app.models.book import db
 
 
 def create_app():
-    app = Flask(__name__, static_folder='statics')
+    app = Flask(__name__, static_folder='static')
     print('id:{}  app实例化'.format(id(app)))
 
     # app.config.from_object('config')

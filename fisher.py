@@ -16,7 +16,10 @@ from app.web import book
 
 
 """
+# from flask import url_for
+
 from app import create_app
+# import  requests
 
 app = create_app()
 
@@ -41,3 +44,5 @@ if __name__ == '__main__':
     """
     单进程 .但线程, 10个 请求
     """
+
+    # url_for
