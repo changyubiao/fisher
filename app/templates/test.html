@@ -1,0 +1,16 @@
+{% extends'layout.html' %}
+
+{% block content %}
+    {{ super() }}  {# 继承基础模板 #}
+
+    {% if  data.age >18 %}
+        {{ data.name }}
+    {% elif  data.age ==18 %}
+        do something  age =18
+    {% else %}
+        {{ data.age }}
+
+    {% endif %}
+
+
+{% endblock %}
