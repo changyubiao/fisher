@@ -24,7 +24,7 @@ XINYONGFEI_BI__URL = 'mysql+cymysql://root:test1111SFY1024#@47.93.76.136:3306/xi
 SQLALCHEMY_DATABASE_URI = XINYONGFEI_BI__URL
 
 
-
+SECRET_KEY='fjsaiofiasjfaljiojsni323922newejejj092nlc[[l.oo;;q'
 
 # SQLALCHEMY_DATABASE_URI
 

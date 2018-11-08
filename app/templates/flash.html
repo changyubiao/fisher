@@ -1,0 +1,50 @@
+{% extends 'layout.html' %}}
+
+{% block  head %}
+    {#    <div> this is head</div>#}
+{% endblock %}
+
+
+
+{% block  content %}
+
+    {% set messages = get_flashed_messages(category_filter=['info']) %}
+
+    {% if messages %}
+        <ul class=flashes>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+
+    <ul class=flashes>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+
+
+{% endblock %}
+
+
+
+{% block  foot %}
+
+    <div>this is foot</div>
+    {% with errors = get_flashed_messages(category_filter=["error"]) %}
+        {% if errors %}
+            <div class="alert-message block-message error">
+                <ul>
+                    {% for msg in errors %}
+                        <li>{{ msg }}</li>
+                    {% endfor -%}
+                </ul>
+            </div>
+        {% endif %}
+    {% endwith %}
+
+{% endblock %}
+

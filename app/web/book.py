@@ -17,6 +17,8 @@ from app.spider.yushu_book import YuShuBook
 from flask import jsonify
 from flask import request
 from flask import render_template
+from flask import flash
+
 
 from app.view_models.book import BookCollection
 from app.web.blueprint import web
@@ -113,26 +115,32 @@ def search():
         return jsonify(form.errors)
 
 
-
-
-
-
 @web.route('/test')
-def  test():
+def messege_flsh():
+    # flash('hello,frank')
+    # flash('hello,frank second ')
+    # flash('hello,frank third ')
+    flash('error flash message',category='error')
+
+    return render_template('flash.html')
 
 
+@web.route('/test3')
+def test3():
     r = {
-        'name':'frank',
-        'age':18
+        'name': 'frank',
+        'age': 18
     }
 
-
-    r2 ={
-        'name':'frank11',
-        'age':11
+    r2 = {
+        'name': 'frank11',
+        'age': 11
     }
 
-    return render_template('test.html',data=r)
+    return render_template('test.html', data=r)
+
+
+
 
 
 

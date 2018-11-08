@@ -10,7 +10,14 @@
     {% else %}
         {{ data.age }}
 
+
     {% endif %}
 
 
+    {{ data |length()}}
+
+    {{ data.aaa |default('1111111') }}
+
+
 {% endblock %}
+ 
