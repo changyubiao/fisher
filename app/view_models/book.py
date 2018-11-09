@@ -53,7 +53,6 @@ class __BookViewModel:
         :param keyword: 关键字
         :return:
         """
-
         try:
 
             book = self.data[0]
@@ -110,6 +109,13 @@ class BookViewModel:
         self.price = book['price']
         self.summary = book['summary'] or ''
         self.image = book['image']
+        self.isbn = book.get('isbn', '')
+
+    @property
+    def introduce(self):
+        summary = filter(lambda x: len(x) > 0, [self.author, self.publisher, self.price])
+
+        return '/'.join(summary)
 
 
 class BookCollection:
@@ -459,7 +465,7 @@ def test_collection():
 
     keywords = quote('红楼梦')
 
-    view = BookViewModel_old(data, keywords)
+    view = __BookViewModel(data, keywords)
 
     ret = view.package_collection()
 
@@ -494,7 +500,7 @@ def test_single():
     keywords = quote('9787070511209')
     # keywords = quote('97870705112091323')
 
-    view = BookViewModel_old(data, keywords)
+    view = __BookViewModel(data, keywords)
 
     ret = view.package_single()
 

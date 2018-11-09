@@ -12,8 +12,6 @@ pipenv install   Flask-SQLAlchemy
 
 
 # sqlalchemy
-
-
 # sqlalchemy
 
 #  Flask_SqLAlchemy
@@ -25,12 +23,12 @@ pipenv install   Flask-SQLAlchemy
 """
 
 from sqlalchemy import Column, Integer, String
-from flask_sqlalchemy import SQLAlchemy
 
-db = SQLAlchemy()
+from app.models.dbbase import db
+from app.models.dbbase import Base
 
 
-class Book(db.Model):
+class Book(Base):
     # 指定数据库里面的表名
     __tablename__ = 'Book'
     id = Column(Integer, primary_key=True, autoincrement=True, comment='自增ID')

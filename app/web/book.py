@@ -20,7 +20,7 @@ from flask import render_template
 from flask import flash
 
 
-from app.view_models.book import BookCollection
+from app.view_models.book import BookCollection, BookViewModel
 from app.web.blueprint import web
 from app.forms.book import SearchForm
 from app.libs.helper import is_isbn_or_key
@@ -51,10 +51,7 @@ def search():
     """
     v1  /book/search/<q>/<page>  http://0.0.0.0:5000/book/search/9787501524044/1
 
-
-
     Request    Response
-
     http  请求信息,
     查询参数 POST 参数. remote  ip
 
@@ -66,7 +63,6 @@ def search():
 
 
     Response    make_response()
-
     # request.args.to_dict()
     request.args   里面就是参数了.
 
@@ -107,12 +103,35 @@ def search():
             yushubook.search_by_keyword(q, page)
 
         bookcollection.fill_books(yushubook, q)
-
-        return json.dumps(bookcollection, default=lambda o: o.__dict__)
+        # return json.dumps(bookcollection, default=lambda o: o.__dict__)
 
     else:
-        # return jsonify({"msg": '参数校验失败'})
-        return jsonify(form.errors)
+        flash('关键字错误,请重新输入关键字.')
+        # return jsonify(form.errors)
+
+    return render_template('search_result.html', books=bookcollection)
+
+
+
+
+@web.route('/book/<isbn>/detail')
+def book_detail(isbn):
+    pass
+
+
+    yushu_book  = YuShuBook()
+    yushu_book.search_by_isbn(isbn)
+
+
+    book_view = BookViewModel(yushu_book.first)
+
+    return render_template('book_detail.html', book=book_view, wishes=[], gifts=[])
+
+
+
+
+
+
 
 
 @web.route('/test')
@@ -138,15 +157,6 @@ def test3():
     }
 
     return render_template('test.html', data=r)
-
-
-
-
-
-
-
-
-
 
 
 

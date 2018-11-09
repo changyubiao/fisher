@@ -14,10 +14,10 @@ from wtforms import StringField
 from wtforms.validators import Length, NumberRange,DataRequired
 
 
+
 class SearchForm(Form):
     """
     验证 search 类 .
-
 
     验证器,   DataRequired() , Length () 不同的验证器.
     """

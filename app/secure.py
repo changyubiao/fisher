@@ -22,10 +22,12 @@ XINYONGFEI_BI__URL = 'mysql+cymysql://root:test1111SFY1024#@47.93.76.136:3306/xi
 
 # 必须制定 这个URL
 SQLALCHEMY_DATABASE_URI = XINYONGFEI_BI__URL
+SQLALCHEMY_TRACK_MODIFICATIONS = True
 
 
 SECRET_KEY='fjsaiofiasjfaljiojsni323922newejejj092nlc[[l.oo;;q'
 
-# SQLALCHEMY_DATABASE_URI
+
+
 
 

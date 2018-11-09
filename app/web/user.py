@@ -18,9 +18,18 @@
 from app.web.blueprint import web
 
 
-@web.route('/users/login')
-def login():
-    pass
+# @web.route('/register', methods=['GET', 'POST'])
+# def register():
+#     pass
+#
+#
+#
+#
+# @web.route('/login', methods=['GET', 'POST'])
+# def login():
+#     pass
+
+
 
 
 if __name__ == '__main__':
