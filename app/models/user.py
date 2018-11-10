@@ -8,12 +8,14 @@
 
 from app.models.dbbase import db
 from sqlalchemy import Integer, String, Boolean, Column, Float
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
+
+from app import login_manger
 from app.models.dbbase import Base
 
-from werkzeug.security import generate_password_hash
 
-
-class User(Base):
+class User(UserMixin, Base):
     __tablename__ = 'User'
     id = Column(Integer, primary_key=True)
     nickname = Column(String(24), nullable=False, comment='别名')
@@ -35,6 +37,17 @@ class User(Base):
     @password.setter
     def password(self, password):
         self._password = generate_password_hash(password)
+
+    def check_passwd(self, raw):
+        return check_password_hash(self._password, raw)
+
+    def get_id(self):
+        return self.id
+
+
+@login_manger.user_loader
+def get_user(uid):
+    return User.query.get(int(uid))
 
 
 if __name__ == '__main__':

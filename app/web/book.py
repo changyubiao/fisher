@@ -19,15 +19,10 @@ from flask import request
 from flask import render_template
 from flask import flash
 
-
 from app.view_models.book import BookCollection, BookViewModel
 from app.web.blueprint import web
 from app.forms.book import SearchForm
 from app.libs.helper import is_isbn_or_key
-
-
-
-
 
 """
 request  只能在  请求中使用, 如果脱离了请求使用,  则不能用, .
@@ -112,26 +107,16 @@ def search():
     return render_template('search_result.html', books=bookcollection)
 
 
-
-
 @web.route('/book/<isbn>/detail')
 def book_detail(isbn):
     pass
 
-
-    yushu_book  = YuShuBook()
+    yushu_book = YuShuBook()
     yushu_book.search_by_isbn(isbn)
-
 
     book_view = BookViewModel(yushu_book.first)
 
     return render_template('book_detail.html', book=book_view, wishes=[], gifts=[])
-
-
-
-
-
-
 
 
 @web.route('/test')
@@ -139,7 +124,7 @@ def messege_flsh():
     # flash('hello,frank')
     # flash('hello,frank second ')
     # flash('hello,frank third ')
-    flash('error flash message',category='error')
+    flash('error flash message', category='error')
 
     return render_template('flash.html')
 
@@ -157,7 +142,6 @@ def test3():
     }
 
     return render_template('test.html', data=r)
-
 
 
 @web.route('/test2')

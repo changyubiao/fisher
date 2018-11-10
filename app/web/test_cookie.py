@@ -10,9 +10,6 @@ from flask import make_response
 from app.web.blueprint import web
 
 
-def make_reponse():
-    pass
-
 
 @web.route('/set/cookie')
 def set_cookie():
