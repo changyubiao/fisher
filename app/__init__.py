@@ -12,6 +12,10 @@ from flask import Flask
 
 from app.models.book import db
 
+from flask_login import LoginManager
+
+login_manger = LoginManager()
+
 
 def create_app():
     app = Flask(__name__, static_folder='static')
@@ -20,6 +24,11 @@ def create_app():
     # app.config.from_object('config')
     app.config.from_object('app.secure')
     app.config.from_object('app.setting')
+
+    login_manger.init_app(app)
+
+    login_manger.login_view='web.login'
+    login_manger.login_message = '请先登录or 注册'
 
     register_blueprint(app)
 

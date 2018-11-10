@@ -18,9 +18,8 @@ class LoginForm(Form):
                                     Email(message='电子邮箱不符合规范')])
 
     password = PasswordField(validators=[
-        DataRequired(message='密码不可以为空，请输入你的密码'), Length(6, 32)])
+        DataRequired(message='密码不可以为空，请输入你的密码'), Length(0, 32)])
 
-    nickname = StringField(validators=[DataRequired(), Length(2, 10, message='昵称至少需要两个字符，最多10个字符')])
 
 
 if __name__ == '__main__':
