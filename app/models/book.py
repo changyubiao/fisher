@@ -23,10 +23,11 @@ pipenv install   Flask-SQLAlchemy
 """
 
 from sqlalchemy import Column, Integer, String
-from app.models.dbbase import Base
+
+from app.models.dbbase import db
 
 
-class Book(Base):
+class Book(db.Model):
     # 指定数据库里面的表名
     __tablename__ = 'Book'
     id = Column(Integer, primary_key=True, autoincrement=True, comment='自增ID')
@@ -50,6 +51,5 @@ class Book(Base):
 
 if __name__ == '__main__':
     pass
-
 
     # db.create_all()

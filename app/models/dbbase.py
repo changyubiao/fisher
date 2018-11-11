@@ -20,7 +20,7 @@ class Base(db.Model):
         'mysql_charset': 'utf8'
     }
 
-    _invalid_key = {'id'}
+    _invalid_key = {'id',}
     status = Column(SmallInteger, default=1, comment='状态判断,如果是1 代表记录存在,0记录不存在,用做软删除.')
 
     def set_attrs(self, attrs):

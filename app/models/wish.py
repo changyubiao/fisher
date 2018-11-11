@@ -16,11 +16,9 @@ class Wish(Base):
     id = Column(Integer, primary_key=True)
     user = relationship('User')
 
-    # 外键关联
-    uid = Column(Integer, ForeignKey('user.id'))
+    # 外键关联  注意 ForeignKey 里面  User ,是指 User 的__tablename__ 这个属性
+    uid = Column(Integer, ForeignKey('User.id'))
     isbn = Column(String(15), nullable=False)
-    # book = relationship('Book')
-    # bid = Column(Integer, ForeignKey('user.id'))
     launched = Column(Boolean, default=False, comment='是否捐赠成功,true:1,false:0')
 
 
