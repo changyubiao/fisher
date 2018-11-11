@@ -16,9 +16,14 @@ from werkzeug.security import generate_password_hash, check_password_hash
 http://0.0.0.0:5000/register
 
 
-"""
 
-from werkzeug.security import generate_password_hash
+http://0.0.0.0:5000/login?next=www.qq.com
+
+
+http://0.0.0.0:5000/my/gifts
+
+
+"""
 
 
 @web.route('/register', methods=['GET', 'POST'])
@@ -40,8 +45,6 @@ def register():
         # print(form)
         if form.validate():
 
-            # with db.auto_commit():
-
             user = User()
             user.set_attrs(form.data)
 
@@ -61,7 +64,7 @@ def register():
 @web.route('/login', methods=['GET', 'POST'])
 def login():
     pass
-    from datetime import timedelta
+    # from datetime import timedelta
     form = LoginForm(request.form)
     if request.method == 'POST' and form.validate():
         #  检查  user ,和密码
@@ -70,20 +73,22 @@ def login():
 
         if user and user.check_passwd(form.password.data):
             # check password
-            #一次性cookie
-            login_user(user,remember=True)
+            # 一次性cookie
+            login_user(user, remember=True)
             # login_user(user,remember=True,duration=timedelta(seconds=10))
             print('login  success.')
+
+            next = request.args.get('next')
+            print(f"next: {next}")
+
+            if not next or next.startwith('wwww'):
+                return redirect(url_for('web.index'))
+
+            return redirect(next)
         else:
             flash('用户名或密码错误!')
             pass
-    # print(form.errors)
     return render_template('auth/login.html', form=form)
-
-    # if request.method == 'GET':
-    #     return render_template('auth/login.html', form=form)
-
-    # print("not support method:{}".format(request.method))
 
 
 @web.route('/reset/password', methods=['GET', 'POST'])

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-@Time    : 2018/11/9 09:26
-@File    : gift.py
+@Time    : 2018/11/10 15:55
+@File    : wish.py
 @Author  : frank.chang@shoufuyou.com
 """
 
@@ -11,8 +11,8 @@ from sqlalchemy.orm import relationship
 from app.models.dbbase import Base
 
 
-class Gift(Base):
-    __tablename__ = 'Gift'
+class Wish(Base):
+    __tablename__ = 'Wish'
     id = Column(Integer, primary_key=True)
     user = relationship('User')
 

@@ -23,8 +23,6 @@ pipenv install   Flask-SQLAlchemy
 """
 
 from sqlalchemy import Column, Integer, String
-
-from app.models.dbbase import db
 from app.models.dbbase import Base
 
 
@@ -51,4 +49,7 @@ class Book(Base):
 
 
 if __name__ == '__main__':
-    db.create_all()
+    pass
+
+
+    # db.create_all()
