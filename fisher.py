@@ -41,7 +41,7 @@ def test_main():
 if __name__ == '__main__':
     print('id:{}  app启动'.format(id(app)))
     # app.run(host='0.0.0.0',port=5000, debug=False,threaded=True)
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=False)
     """
     单进程 .但线程, 10个 请求
     """

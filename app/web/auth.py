@@ -45,13 +45,14 @@ def register():
         # print(form)
         if form.validate():
 
-            user = User()
-            user.set_attrs(form.data)
+            with db.auto_commit():
+                user = User()
+                user.set_attrs(form.data)
 
-            # 这样是不好..
-            # user.password = generate_password_hash(form.password.data)
-            db.session.add(user)
-            db.session.commit()
+                # 这样是不好..
+                # user.password = generate_password_hash(form.password.data)
+                db.session.add(user)
+
             return redirect(url_for('web.login'))
         else:
             print(form.errors)
@@ -81,7 +82,7 @@ def login():
             next = request.args.get('next')
             print(f"next: {next}")
 
-            if not next or next.startwith('wwww'):
+            if not next or next.startswith('wwww'):
                 return redirect(url_for('web.index'))
 
             return redirect(next)

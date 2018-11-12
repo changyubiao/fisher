@@ -12,17 +12,16 @@
 
 from sqlalchemy import Column, Integer, String, ForeignKey, Boolean
 from sqlalchemy.orm import relationship
-from app.models.dbbase import Base, db
+from app.models.dbbase import Base
 
 
 class Gift(Base):
-    __tablename__='Gift'
+    __tablename__ = 'Gift'
     id = Column(Integer, primary_key=True)
     user = relationship('User')
     uid = Column(Integer, ForeignKey('User.id'))
     isbn = Column(String(15), nullable=False, comment='书籍的isbn编号')
-
-    launched = Column(Boolean, default=False, comment='是否捐赠成功,true:1,false:0')
+    lanched = Column(Boolean, default=False, comment='是否捐赠成功,true:1,false:0')
 
 
 if __name__ == '__main__':

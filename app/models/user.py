@@ -14,7 +14,7 @@ from app import login_manger
 from app.models.dbbase import Base
 from app.libs.helper import is_isbn_or_key
 from app.models.gift import Gift
-# from app.models.wish import Wish
+from app.models.wish import Wish
 from app.spider.yushu_book import YuShuBook
 
 

@@ -5,10 +5,26 @@
 @File    : dbbase.py
 @Author  : frank.chang@shoufuyou.com
 """
-
-from flask_sqlalchemy import SQLAlchemy
-
+from datetime import datetime
+from flask_sqlalchemy import SQLAlchemy as _SQLAlchemy
 from sqlalchemy import Integer, Float, Column, SmallInteger
+from contextlib import contextmanager
+
+
+class SQLAlchemy(_SQLAlchemy):
+    """
+    继承_SQLAlchemy ,添加自动提交的方法
+    """
+
+    @contextmanager
+    def auto_commit(self):
+        try:
+            yield
+            self.session.commit()
+        except Exception as e:
+            self.session.rollback()
+            raise e
+
 
 db = SQLAlchemy()
 
@@ -20,8 +36,14 @@ class Base(db.Model):
         'mysql_charset': 'utf8'
     }
 
-    _invalid_key = {'id',}
+    _invalid_key = {'id', }
     status = Column(SmallInteger, default=1, comment='状态判断,如果是1 代表记录存在,0记录不存在,用做软删除.')
+    create_time = Column(Integer)
+
+    def __init__(self):
+        self.create_time = int(datetime.now().timestamp())
+
+
 
     def set_attrs(self, attrs):
         """

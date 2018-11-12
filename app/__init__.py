@@ -9,8 +9,8 @@
 """
 
 from flask import Flask
-from app.models.book import db
-
+# from app.models.book import db
+from app.models.dbbase import db
 
 from flask_login import LoginManager
 

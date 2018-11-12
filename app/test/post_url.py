@@ -15,7 +15,13 @@ http://0.0.0.0:5000/register
 
 
 
+http://0.0.0.0:5000/my/gifts
 
+
+
+
+
+http://0.0.0.0:5000/set/cookie
 
 """
 
