@@ -75,7 +75,6 @@ class __BookViewModel:
 
         return self.returned
 
-
     @staticmethod
     def __cut_book_data(data):
         """
@@ -110,10 +109,15 @@ class BookViewModel:
         self.summary = book['summary'] or ''
         self.image = book['image']
         self.isbn = book.get('isbn', '')
+        self.binding = book['binding']
+        self.category = book['category']
+
+        self.pubdate= book['pubdate']
 
     @property
     def introduce(self):
-        summary = filter(lambda x: len(x) > 0, [self.author, self.publisher, self.price])
+        # summary = filter(lambda x: len(x) > 0, [self.author, self.publisher, self.price])
+        summary = filter(lambda x:  True if x else False , [self.author, self.publisher, self.price])
 
         return '/'.join(summary)
 

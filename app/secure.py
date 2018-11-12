@@ -18,14 +18,14 @@
 # 不能上传git 私密的信息...
 
 
-XINYONGFEI_BI__URL = 'mysql+cymysql://root:test1111SFY1024#@47.93.76.136:3306/xinyongfei_fisher?charset=utf8'
+XINYONGFEI_BI_URL = 'mysql+cymysql://root:test1111SFY1024#@47.93.76.136:3306/xinyongfei_fisher?charset=utf8'
 
 # 必须制定 这个URL
-SQLALCHEMY_DATABASE_URI = XINYONGFEI_BI__URL
-SQLALCHEMY_TRACK_MODIFICATIONS = True
+SQLALCHEMY_DATABASE_URI = XINYONGFEI_BI_URL
+SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
-SECRET_KEY='fjsaiofiasjfaljiojsni323922newejejj092nlc[[l.oo;;q'
+SECRET_KEY='fjsaiofias[w]ewq.eq.eqe,qkojfaljiojsni323922jfodsjfspkfpsvn,x.newejejj092nlc[[l.oo;;q'
 
 
 

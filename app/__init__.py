@@ -9,8 +9,8 @@
 """
 
 from flask import Flask
-
-from app.models.book import db
+# from app.models.book import db
+from app.models.dbbase import db
 
 from flask_login import LoginManager
 
@@ -27,8 +27,8 @@ def create_app():
 
     login_manger.init_app(app)
 
-    login_manger.login_view='web.login'
-    login_manger.login_message = '请先登录or 注册'
+    login_manger.login_view = 'web.login'
+    login_manger.login_message = '请先登录or注册'
 
     register_blueprint(app)
 
@@ -39,7 +39,6 @@ def create_app():
         db.create_all()
 
     # db.create_all(app=app)
-
     return app
 
 

@@ -1,13 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-@Time    : 2018/11/9 09:26
-@File    : gift.py
+@Time    : 2018/11/10 15:55
+@File    : wish.py
 @Author  : frank.chang@shoufuyou.com
-
-
-    # book = relationship('Book')
-    # bid = Column(Integer, ForeignKey('user.id'))
 """
 
 from sqlalchemy import Column, Integer, String, ForeignKey, Boolean
@@ -15,12 +11,14 @@ from sqlalchemy.orm import relationship
 from app.models.dbbase import Base
 
 
-class Gift(Base):
-    __tablename__ = 'Gift'
-    id = Column(Integer, primary_key=True)
+class Wish(Base):
+    __tablename__ = 'Wish'
+    id = Column(Integer, primary_key=True, autoincrement=True)
     user = relationship('User')
+
+    # 外键关联  注意 ForeignKey 里面  User ,是指 User 的__tablename__ 这个属性
     uid = Column(Integer, ForeignKey('User.id'))
-    isbn = Column(String(15), nullable=False, comment='书籍的isbn编号')
+    isbn = Column(String(15), nullable=False)
     lanched = Column(Boolean, default=False, comment='是否捐赠成功,true:1,false:0')
 
 
