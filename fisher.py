@@ -25,10 +25,10 @@ from app import create_app
 app = create_app()
 
 
-@app.route('/index')
-@app.route('/')
-def index():
-    return 'this is index \n'
+# @app.route('/index')
+# @app.route('/')
+# def index():
+#     return 'this is index \n'
 
 
 def test_main():
@@ -41,7 +41,7 @@ def test_main():
 if __name__ == '__main__':
     print('id:{}  app启动'.format(id(app)))
     # app.run(host='0.0.0.0',port=5000, debug=False,threaded=True)
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    app.run(host='0.0.0.0', port=5000, debug=True)
     """
     单进程 .但线程, 10个 请求
     """

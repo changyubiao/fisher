@@ -5,7 +5,6 @@
 @File    : user.py
 @Author  : frank.chang@shoufuyou.com
 """
-
 from sqlalchemy import Integer, String, Boolean, Column, Float
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
@@ -67,8 +66,11 @@ class User(UserMixin, Base):
             return False
 
         # 既不在 赠送清单中, 也不在心愿清单中 才能添加这本书
-        gift = Gift.query.filter_by(uid=self.id, isbn=isbn, lanched=False).first()
-        wish = Wish.query.filter_by(uid=self.id, isbn=isbn, lanched=False).first()
+        q = Gift.query.filter_by(uid=self.id, isbn=isbn, launched=False)
+        print(q)
+
+        gift = Gift.query.filter_by(uid=self.id, isbn=isbn, launched=False).first()
+        wish = Wish.query.filter_by(uid=self.id, isbn=isbn, launched=False).first()
         if not gift and not wish:
             return True
         else:

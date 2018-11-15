@@ -16,8 +16,7 @@ DEBUG = False
 
 PER_PAGE = 15
 
-
-
+# 显示最近要显示书籍的数量
+RECENT_BOOK_COUNT = 20
 
 BEANS_UPLOAD_ONE_BOOK = 0.5
-

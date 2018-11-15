@@ -111,7 +111,6 @@ class BookViewModel:
         self.isbn = book.get('isbn', '')
         self.binding = book['binding']
         self.category = book['category']
-
         self.pubdate= book['pubdate']
 
     @property

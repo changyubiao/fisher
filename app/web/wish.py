@@ -8,6 +8,7 @@ def my_wish():
 
 @web.route('/wish/book/<isbn>')
 def save_to_wish(isbn):
+    return 'save isbn:{} into wish'.format(isbn)
     pass
 
 
