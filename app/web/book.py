@@ -13,6 +13,10 @@
 import json
 from urllib.parse import quote
 
+from flask_login import current_user
+
+from app.models.gift import Gift
+from app.models.wish import Wish
 from app.spider.yushu_book import YuShuBook
 from flask import jsonify
 from flask import request
@@ -20,6 +24,7 @@ from flask import render_template
 from flask import flash
 
 from app.view_models.book import BookCollection, BookViewModel
+from app.view_models.trade import TradeInfo
 from app.web.blueprint import web
 from app.forms.book import SearchForm
 from app.libs.helper import is_isbn_or_key
@@ -110,13 +115,32 @@ def search():
 @web.route('/book/<isbn>/detail')
 def book_detail(isbn):
     pass
+    has_in_wishes = False
+
+    has_in_gifts = False
 
     yushu_book = YuShuBook()
     yushu_book.search_by_isbn(isbn)
 
     book_view = BookViewModel(yushu_book.first)
 
-    return render_template('book_detail.html', book=book_view, wishes=[], gifts=[])
+    if current_user.is_authenticated:
+        gift = Gift.query.filter_by(uid=current_user.id, isbn=isbn, launched=False).first()
+        if gift:
+            has_in_gifts = True
+
+        gift = Wish.query.filter_by(uid=current_user.id, isbn=isbn, launched=False).first()
+        if gift:
+            has_in_wishes = True
+
+    my_wishes = Wish.query.filter_by(isbn=isbn, launched=False).all()
+    my_gifts = Gift.query.filter_by(isbn=isbn, launched=False).all()
+
+    view_wishs = TradeInfo(my_wishes)
+    view_gifts = TradeInfo(my_gifts)
+
+    return render_template('book_detail.html', book=book_view, wishes=view_wishs, gifts=view_gifts,
+                           has_in_gifts=has_in_gifts, has_in_wishes=has_in_wishes)
 
 
 @web.route('/test')

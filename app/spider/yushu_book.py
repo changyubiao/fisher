@@ -35,6 +35,7 @@ class YuShuBook:
         result = HTTP.get(url)
 
         self.__fill_single(result)
+        # return self
 
     def __fill_single(self, data):
         if data:
