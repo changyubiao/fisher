@@ -10,11 +10,13 @@
     # bid = Column(Integer, ForeignKey('user.id'))
 """
 from flask import current_app
-from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, desc, asc
+from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, desc, asc, func
 from sqlalchemy.orm import relationship
 from app.models.dbbase import Base
+from app.models.dbbase import db
 
 # from werkzeug
+from app.models.wish import Wish
 from app.spider.yushu_book import YuShuBook
 
 
@@ -46,6 +48,39 @@ class Gift(Base):
         recent_gifts = Gift.query.filter_by(launched=False).group_by(Gift.isbn).order_by(desc(Gift.create_time)).limit(
             current_app.config['RECENT_BOOK_COUNT']).distinct().all()
         return recent_gifts
+
+    @classmethod
+    def get_user_gifts(cls, uid):
+        pass
+        mygifts = Gift.query.filter_by(uid=uid, launched=False).order_by(desc(Gift.create_time)).all()
+
+        return mygifts
+
+    @classmethod
+    def get_wish_counts(cls, isbn_list):
+        """
+        传入一组 isbn ,到 gift 表中 检索相应的 礼物，并计算某个礼物的数量，统计每个礼物的总数。
+        :param isbn_list:
+        :return:
+        """
+        pass
+        mywishs = db.session.query(func.count(Wish.id), Wish.isbn).filter(
+            Wish.launched == 0, Wish.status == 1,
+            Wish.isbn.in_(isbn_list)).group_by(
+            Wish.isbn).all()
+
+        return [{'count': count, 'isbn': isbn} for count, isbn in mywishs]
+
+    @classmethod
+    def redraw_from_gift(cls, id):
+        gift = Gift.query.filter_by(id=id).first()
+
+        if gift:
+            # 删除 书籍
+            db.session.delete(gift)
+            # 不要忘记 commit 操作了。
+            db.session.commit()
+        pass
 
 
 if __name__ == '__main__':

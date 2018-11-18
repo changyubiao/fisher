@@ -48,12 +48,10 @@ class Base(db.Model):
 
     _invalid_key = {'id', }
     status = Column(SmallInteger, default=1, comment='状态判断,如果是1 代表记录存在,0记录不存在,用做软删除.')
-    create_time = Column(Integer,comment='创建时间,时间戳,整型')
+    create_time = Column(Integer, comment='创建时间,时间戳,整型')
 
     def __init__(self):
         self.create_time = int(datetime.now().timestamp())
-
-
 
     @property
     def create_datetime(self):
@@ -65,7 +63,6 @@ class Base(db.Model):
             return datetime.fromtimestamp(self.create_time)
         else:
             return None
-
 
     def set_attrs(self, attrs):
         """
@@ -92,8 +89,6 @@ if __name__ == '__main__':
                 kwargs['status'] = 1
 
             return super().filter_by(**kwargs)
-
-
 
 
     b = BaseQuery()
