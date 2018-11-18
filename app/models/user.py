@@ -66,8 +66,8 @@ class User(UserMixin, Base):
             return False
 
         # 既不在 赠送清单中, 也不在心愿清单中 才能添加这本书
-        q = Gift.query.filter_by(uid=self.id, isbn=isbn, launched=False)
-        print(q)
+        # q = Gift.query.filter_by(uid=self.id, isbn=isbn, launched=False)
+        # print(q)
 
         gift = Gift.query.filter_by(uid=self.id, isbn=isbn, launched=False).first()
         wish = Wish.query.filter_by(uid=self.id, isbn=isbn, launched=False).first()

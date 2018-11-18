@@ -15,8 +15,6 @@ from sqlalchemy.orm import relationship
 from app.models.dbbase import Base
 from app.models.dbbase import db
 
-# from werkzeug
-from app.models.wish import Wish
 from app.spider.yushu_book import YuShuBook
 
 
@@ -82,6 +80,8 @@ class Gift(Base):
             db.session.commit()
         pass
 
+
+from app.models.wish import Wish
 
 if __name__ == '__main__':
     pass

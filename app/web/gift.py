@@ -83,13 +83,7 @@ def redraw_from_gifts(gid):
     pass
     print(' redraw_from_gifts ')
 
-    # uid = current_user.id
-    # isbn =  gid
     Gift.redraw_from_gift(id=gid)
 
     print(url_for('web.my_gifts'))
-    # redirect(url_for('web.my_gifts'))
-    # return ' redraw_from_gifts  successfully  '
-
-
     return  redirect(url_for('web.my_gifts'))
