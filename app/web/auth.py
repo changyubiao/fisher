@@ -9,6 +9,7 @@ from flask import request
 from flask import redirect
 
 from flask_login import login_user
+from flask_login import logout_user
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -109,4 +110,6 @@ def change_password():
 
 @web.route('/logout')
 def logout():
-    pass
+    logout_user()
+
+    return redirect(url_for('web.index'))
