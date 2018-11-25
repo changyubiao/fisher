@@ -38,10 +38,10 @@ class Gift(Base):
 
     @classmethod
     def recent(cls):
-        q = Gift.query.filter_by(launched=False).group_by(Gift.isbn).order_by(desc(Gift.create_time)).limit(
-            current_app.config['RECENT_BOOK_COUNT']).distinct()
+        # q = Gift.query.filter_by(launched=False).group_by(Gift.isbn).order_by(desc(Gift.create_time)).limit(
+        #     current_app.config['RECENT_BOOK_COUNT']).distinct()
 
-        print(q)
+        # print(q)
 
         recent_gifts = Gift.query.filter_by(launched=False).group_by(Gift.isbn).order_by(desc(Gift.create_time)).limit(
             current_app.config['RECENT_BOOK_COUNT']).distinct().all()
@@ -61,7 +61,8 @@ class Gift(Base):
         :param isbn_list:
         :return:
         """
-        pass
+        # local 导入方法,防止 循环导入问题
+        from app.models.wish import Wish
         mywishs = db.session.query(func.count(Wish.id), Wish.isbn).filter(
             Wish.launched == 0, Wish.status == 1,
             Wish.isbn.in_(isbn_list)).group_by(
@@ -80,8 +81,6 @@ class Gift(Base):
             db.session.commit()
         pass
 
-
-from app.models.wish import Wish
 
 if __name__ == '__main__':
     pass
