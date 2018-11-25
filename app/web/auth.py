@@ -1,3 +1,6 @@
+from werkzeug.exceptions import HTTPException
+
+from app.forms.forget_passwd import EmailForm
 from app.forms.login import LoginForm
 from app.forms.register import RegisterForm
 from app.models.user import User
@@ -95,7 +98,20 @@ def login():
 
 @web.route('/reset/password', methods=['GET', 'POST'])
 def forget_password_request():
-    pass
+    form = EmailForm(request.form)
+
+    if request.method == 'POST' and form.validate():
+        email = form.email.data
+
+        user = User.query.filter_by(email=email).first_or_404()
+
+        from app.libs.email import send_email
+
+        send_email()
+
+        return 'post  send email successfully'
+
+    return render_template('auth/forget_password_request.html', form=form)
 
 
 @web.route('/reset/password/<token>', methods=['GET', 'POST'])
