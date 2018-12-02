@@ -1,11 +1,6 @@
-from werkzeug.exceptions import HTTPException
+# from werkzeug.exceptions import HTTPException
 
-from app.forms.forget_passwd import EmailForm
-from app.forms.login import LoginForm
-from app.forms.register import RegisterForm
-from app.models.user import User
-from app.web.blueprint import web
-from app.models.dbbase import db
+import logging
 
 from flask import render_template, url_for, flash
 from flask import request
@@ -14,11 +9,20 @@ from flask import redirect
 from flask_login import login_user
 from flask_login import logout_user
 
-from werkzeug.security import generate_password_hash, check_password_hash
+from app.forms.forget_passwd import EmailForm, ResetPasswordForm
+from app.forms.login import LoginForm
+from app.forms.register import RegisterForm
+from app.models.user import User
+from app.web.blueprint import web
+from app.models.dbbase import db
+from app.libs.email import send_email
+
+logger = logging.getLogger(__name__)
+
+# from werkzeug.security import generate_password_hash, check_password_hash
 
 """
 http://0.0.0.0:5000/register
-
 
 
 http://0.0.0.0:5000/login?next=www.qq.com
@@ -46,7 +50,7 @@ def register():
     if request.method == 'POST':
         form = RegisterForm(request.form)
 
-        # print(form)
+        # logger.info(form)
         if form.validate():
 
             with db.auto_commit():
@@ -59,7 +63,7 @@ def register():
 
             return redirect(url_for('web.login'))
         else:
-            print(form.errors)
+            logger.info(form.errors)
             return render_template('auth/register.html', form=form)
     elif request.method == 'GET':
         pass
@@ -81,10 +85,10 @@ def login():
             # 一次性cookie
             login_user(user, remember=True)
             # login_user(user,remember=True,duration=timedelta(seconds=10))
-            print('login  success.')
+            logger.info('login  success.')
 
             next = request.args.get('next')
-            print(f"next: {next}")
+            logger.info(f"next: {next}")
 
             if not next or next.startswith('wwww'):
                 return redirect(url_for('web.index'))
@@ -104,19 +108,38 @@ def forget_password_request():
         email = form.email.data
 
         user = User.query.filter_by(email=email).first_or_404()
+        token = user.generate_token()
 
-        from app.libs.email import send_email
+        logger.info(f"token：{token}")
+        logger.info(f"{form.email.data}")
 
-        send_email()
+        account_email = form.email.data
 
-        return 'post  send email successfully'
-
+        send_email(to=form.email.data, subject='请重置你的密码', template='email/reset_password.html', user=user,
+                   token=token)
+        flash('一封邮件已发送到邮箱' + account_email + '，请及时查收')
     return render_template('auth/forget_password_request.html', form=form)
 
 
+# 单元测试 环节
 @web.route('/reset/password/<token>', methods=['GET', 'POST'])
 def forget_password(token):
-    pass
+    form = ResetPasswordForm(request.form)
+
+    if request.method == 'POST' and form.validate():
+        pass
+        # 业务逻辑
+
+        success = User.reset_passwd(token, form.password1.data)
+        if success:
+            flash('更新密码成功了,请重新登录')
+            # 更新用户密码
+            return redirect(url_for('web.login'))
+        else:
+
+            flash('重置密码失败！')
+
+    return render_template('auth/forget_password.html', form=form)
 
 
 @web.route('/change/password', methods=['GET', 'POST'])

@@ -8,20 +8,29 @@
 
 """
 
+import logging
+
 from flask import Flask
-# from app.models.book import db
 from app.models.dbbase import db
 
 from flask_mail import Mail
 from flask_login import LoginManager
 
 login_manger = LoginManager()
+
+from app.libs.log import configure_logging
+
+# 日志配置模块
+configure_logging()
+
+logger = logging.getLogger(__name__)
+
 mail = Mail()
 
 
 def create_app():
     app = Flask(__name__, static_folder='static')
-    print('id:{}  app实例化'.format(id(app)))
+    logger.info('id:{}  app实例化'.format(id(app)))
 
     # app.config.from_object('config')
     app.config.from_object('app.secure')
