@@ -89,7 +89,7 @@ def configure_logging(log_path=None):
         log_path = default_log_path
     if not os.path.exists(log_path):
         os.mkdir(log_path)
-    logger.info('log_path at :"{}"'.format(log_path))
+    logger.info('log_path :"{}"'.format(log_path))
     info_file_name = os.path.join(log_path, 'info.log')
     error_file_name = os.path.join(log_path, 'error.log')
 

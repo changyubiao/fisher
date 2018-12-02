@@ -21,7 +21,7 @@ login_manger = LoginManager()
 from app.libs.log import configure_logging
 
 # 日志配置模块
-configure_logging()
+configure_logging('./app/logs/')
 
 logger = logging.getLogger(__name__)
 
