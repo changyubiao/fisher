@@ -5,16 +5,23 @@
 @File    : user.py
 @Author  : frank.chang@shoufuyou.com
 """
+from flask import current_app
+from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
+
 from sqlalchemy import Integer, String, Boolean, Column, Float
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
 from app import login_manger
-from app.models.dbbase import Base
+from app.models.dbbase import Base, db
 from app.libs.helper import is_isbn_or_key
 from app.models.gift import Gift
 from app.models.wish import Wish
 from app.spider.yushu_book import YuShuBook
+
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class User(UserMixin, Base):
@@ -67,7 +74,7 @@ class User(UserMixin, Base):
 
         # 既不在 赠送清单中, 也不在心愿清单中 才能添加这本书
         # q = Gift.query.filter_by(uid=self.id, isbn=isbn, launched=False)
-        # print(q)
+        # logger.info(q)
 
         gift = Gift.query.filter_by(uid=self.id, isbn=isbn, launched=False).first()
         wish = Wish.query.filter_by(uid=self.id, isbn=isbn, launched=False).first()
@@ -75,6 +82,35 @@ class User(UserMixin, Base):
             return True
         else:
             return False
+
+    @staticmethod
+    def reset_passwd(token, newpassword):
+
+        s = Serializer(current_app.config['SECRET_KEY'])
+
+        try:
+            data = s.loads((token))
+        except Exception as e:
+            logger.info(f"e:{e}")
+            # logger.info(f"data:{data}")
+            return False
+
+        uid = data.get('id')
+        with db.auto_commit():
+            user = User.query.get(uid)
+            if not user:
+                return False
+            user.password = newpassword
+
+        return True
+
+    def generate_token(self, expiration=600):
+
+        s = Serializer(current_app.config['SECRET_KEY'], expiration)
+
+        # temp = s.dumps({'id': self.id})
+        # logger.info(temp)
+        return s.dumps({'id': self.id}).decode('utf-8')
 
 
 @login_manger.user_loader
